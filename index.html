@@ -9,8 +9,8 @@
 
     body {
       font-family: 'Roboto', sans-serif;
-      background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
-      color: #004d40;
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
+      color: #222;
       text-align: center;
       padding: 60px 20px;
       min-height: 100vh;
@@ -19,19 +19,22 @@
       justify-content: center;
       position: relative;
       overflow: hidden;
+      z-index: 1;
     }
+
     h1 {
       font-family: 'Pacifico', cursive;
       font-size: 3em;
       margin-bottom: 0.2em;
       color: #00796b;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
     }
+
     p {
       font-size: 1.3em;
       margin-bottom: 40px;
       font-weight: 500;
     }
+
     button {
       background: #26a69a;
       border: none;
@@ -44,29 +47,33 @@
       margin: 10px 15px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
+
     button:hover {
       background: #00796b;
     }
+
     #counter {
       margin-top: 20px;
       font-size: 1.8em;
       font-weight: bold;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 10px;
     }
+
     #counter span.emoji {
       font-size: 1.8em;
     }
+
     #message {
       margin-top: 15px;
       font-size: 1.1em;
       font-weight: 600;
-      color: #004d40cc;
+      color: #333;
       min-height: 24px;
     }
+
     #progress-container {
       width: 80%;
       max-width: 400px;
@@ -77,6 +84,131 @@
       overflow: hidden;
       box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
     }
+
     #progress-bar {
       height: 100%;
-      background
+      background: #26a69a;
+      width: 0%;
+      border-radius: 20px 0 0 20px;
+      transition: width 0.4s ease;
+      box-shadow: 0 2px 8px rgba(38,166,154,0.6);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 15px;
+      width: 100%;
+      font-size: 0.9em;
+      color: #444;
+      font-style: italic;
+    }
+
+    .water-drop {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 50px;
+      height: 70px;
+      background: #26a69a;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      box-shadow: inset -5px -10px 10px rgba(255,255,255,0.5);
+      animation: float 3s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0);}
+      50% { transform: translateY(-15px);}
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -50px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      animation: rise 6s linear infinite;
+      opacity: 0.7;
+      z-index: 0;
+    }
+
+    @keyframes rise {
+      0% { transform: translateY(0) scale(1); opacity: 0.7; }
+      100% { transform: translateY(-600px) scale(0.5); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="water-drop" aria-hidden="true"></div>
+
+  <h1>Hey Miss Love Quinn!</h1>
+  <p>Don’t forget to drink water and stay hydrated.</p>
+
+  <button onclick="drinkWater()">I drank water!</button>
+  <button onclick="resetCounter()">Reset</button>
+
+  <div id="counter">
+    <span class="emoji">💧</span>
+    Glasses today: <span id="count">0</span>
+  </div>
+
+  <div id="progress-container">
+    <div id="progress-bar"></div>
+  </div>
+
+  <div id="message"></div>
+
+  <footer>Stay healthy and keep hydrated!</footer>
+
+  <script>
+    const countElem = document.getElementById('count');
+    const progressBar = document.getElementById('progress-bar');
+    const messageElem = document.getElementById('message');
+    let count = parseInt(localStorage.getItem("waterCount")) || 0;
+    const goal = 8;
+
+    function updateUI() {
+      countElem.innerText = count;
+      let progressPercent = Math.min((count / goal) * 100, 100);
+      progressBar.style.width = progressPercent + '%';
+
+      if (count === 0) {
+        messageElem.innerText = "Let's start hydrating!";
+      } else if (count < goal / 2) {
+        messageElem.innerText = "Good start, keep going!";
+      } else if (count < goal) {
+        messageElem.innerText = "Almost there, you got this!";
+      } else {
+        messageElem.innerText = "Awesome! You reached your goal!";
+      }
+    }
+
+    function drinkWater() {
+      count++;
+      localStorage.setItem("waterCount", count);
+      updateUI();
+    }
+
+    function resetCounter() {
+      count = 0;
+      localStorage.setItem("waterCount", count);
+      updateUI();
+    }
+
+    updateUI();
+
+    function createBubble() {
+      const bubble = document.createElement('div');
+      bubble.classList.add('bubble');
+      const size = Math.random() * 30 + 10 + 'px';
+      bubble.style.width = size;
+      bubble.style.height = size;
+      bubble.style.left = Math.random() * window.innerWidth + 'px';
+      bubble.style.animationDuration = (Math.random() * 3 + 4) + 's';
+      document.body.appendChild(bubble);
+      bubble.addEventListener('animationend', () => bubble.remove());
+    }
+
+    setInterval(createBubble, 1200);
+  </script>
+</body>
+</html>
