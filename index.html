@@ -28,6 +28,7 @@
       border-radius: 8px;
       cursor: pointer;
       transition: 0.3s;
+      margin: 10px;
     }
     button:hover {
       background: #00acc1;
@@ -42,12 +43,23 @@
   <h1>Hey Miss Love Quinn!</h1>
   <p>Don’t forget to drink water and stay hydrated.</p>
   <button onclick="drinkWater()">I drank water!</button>
+  <button onclick="resetCounter()">Reset</button>
   <div id="counter">Glasses today: 0</div>
 
   <script>
-    let count = 0;
+    // Load count from localStorage or start at 0
+    let count = parseInt(localStorage.getItem("waterCount")) || 0;
+    document.getElementById("counter").innerText = "Glasses today: " + count;
+
     function drinkWater() {
       count++;
+      localStorage.setItem("waterCount", count);
+      document.getElementById("counter").innerText = "Glasses today: " + count;
+    }
+
+    function resetCounter() {
+      count = 0;
+      localStorage.setItem("waterCount", count);
       document.getElementById("counter").innerText = "Glasses today: " + count;
     }
   </script>
