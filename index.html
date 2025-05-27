@@ -3,27 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Asehi</title>
+  <title>Drink Water Tracker</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      background: #e0f7fa;
+      color: #00796b;
       text-align: center;
-      padding: 50px;
-      background: #f0f0f0;
-      color: #333;
+      padding: 60px;
     }
     h1 {
-      font-size: 3em;
-      margin-bottom: 0.2em;
+      font-size: 2.5em;
     }
     p {
       font-size: 1.2em;
-      color: #666;
+      margin: 20px 0;
+    }
+    button {
+      background: #4dd0e1;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.1em;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #00acc1;
+    }
+    #counter {
+      margin-top: 30px;
+      font-size: 1.5em;
     }
   </style>
 </head>
 <body>
-  <h1>Welcome to Asehi</h1>
-  <p>Your place to start something awesome.</p>
+  <h1>Hey Miss Love Quinn!</h1>
+  <p>Don’t forget to drink water and stay hydrated.</p>
+  <button onclick="drinkWater()">I drank water!</button>
+  <div id="counter">Glasses today: 0</div>
+
+  <script>
+    let count = 0;
+    function drinkWater() {
+      count++;
+      document.getElementById("counter").innerText = "Glasses today: " + count;
+    }
+  </script>
 </body>
 </html>
